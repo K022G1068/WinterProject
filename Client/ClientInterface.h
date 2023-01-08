@@ -50,7 +50,7 @@ public:
 						Novice::ScreenPrintf(10, 10, "Server Accepted client - you're in");
 						Network::net::message<GameMsg> msg;
 						msg.header.id = GameMsg::Client_RegisterWithServer;
-						playerInfo.p_Pos = { 350.0f,350.0f };
+						playerInfo.p_Pos = { 50.0f,50.0f };
 						msg << playerInfo;
 						Send(msg);
 						break;
@@ -66,11 +66,11 @@ public:
 
 					case(GameMsg::Game_AddPlayer):
 					{
-						PlayerInfo player;
-						msg >> player;
-						mapObjects.insert_or_assign(player.nUniqueID, player);
+						PlayerInfo playerInfo;
+						msg >> playerInfo;
+						mapObjects.insert_or_assign(playerInfo.nUniqueID, playerInfo);
 
-						if (player.nUniqueID == nPlayerID)
+						if (playerInfo.nUniqueID == nPlayerID)
 						{
 							//Not waiting for connection any longer
 							bWaitingforConnection = false;
@@ -88,9 +88,9 @@ public:
 					}
 					case(GameMsg::Game_UpdatePlayer):
 					{
-						PlayerInfo player;
-						msg >> player;
-						mapObjects.insert_or_assign(player.nUniqueID, player);
+						PlayerInfo playerInfo;
+						msg >> playerInfo;
+						mapObjects.insert_or_assign(playerInfo.nUniqueID, playerInfo);
 						break;
 					}
 					case GameMsg::Server_GetPing:

@@ -32,13 +32,19 @@
     <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp">
       <Filter>KamataEngine\Adapter</Filter>
     </ClCompile>
-    <ClCompile Include="Function.cpp">
-      <Filter>KamataEngine</Filter>
-    </ClCompile>
     <ClCompile Include="ClientInterface.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="w_Ranged.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
   </ItemGroup>
@@ -123,5 +129,9 @@
     </ClInclude>
     <ClInclude Include="ClientInterface.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Weapon.h" />
+    <ClInclude Include="Map.h" />
+    <ClInclude Include="w_Ranged.h" />
+    <ClInclude Include="Easing.h" />
   </ItemGroup>
 </Project>

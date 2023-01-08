@@ -1,7 +1,14 @@
 #pragma once
 #include <cstdint>
-#include"Function.h"
 #include"Networking.h"
+#include"Struct.h"
+#define BLOCK_SIZE 32
+
+enum MapInfo
+{
+	NONE,
+	BLOCK,
+};
 
 enum class GameMsg : uint32_t
 {
@@ -22,14 +29,18 @@ struct PlayerInfo
 {
 	uint32_t nUniqueID = 0;
 	uint32_t nAvatarID = 0;
-
-	uint32_t nHealth = 100;
-	uint32_t nAmmo = 20;
-	uint32_t nKills = 0;
-	uint32_t nDeaths = 0;
-
-	float fRadius = 0.5f;
-
+	Hp p_Hp;
 	Vector2 p_Pos;
+	Vector2 p_Old_Pos;
 	Vector2 p_Vel;
+	Vector2 p_Acc;
+	Vector2 p_s_Pos;
+	Vector2 p_Scale;
+
+	int color = 0xFFFFFFFF;
+	bool isHitted;
+	bool canHit;
+	bool p_OnGround;
+
+	
 };

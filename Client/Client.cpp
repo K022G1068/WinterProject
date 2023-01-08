@@ -1,9 +1,10 @@
 ﻿#include"Player.h"
-
+#include"Map.h"
 #include <Novice.h>
+
 const char kWindowTitle[] = "K022G1068";
-const int kWindowWidth = 800;
-const int kWindowHeight = 800;
+const int kWindowWidth = 1280;
+const int kWindowHeight = 720;
 
 
 
@@ -17,9 +18,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	char keys[256] = {0};
 	char preKeys[256] = {0};
 
+	int mapGraph = Novice::LoadTexture("./Resources/Block1.png");
+
 	Player* player = new Player();
+	Map* mapObject = new Map();
+
 	// ウィンドウの×ボタンが押されるまでループ
-	while (Novice::ProcessMessage() == 0 && player->IsConnected()) {
+	while (Novice::ProcessMessage() == 0) {
 		// フレームの開始
 		Novice::BeginFrame();
 
@@ -34,7 +39,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 		/// ↑更新処理ここまで
 		///
+		/// 
 		player->Draw();
+		mapObject->DrawMap(mapGraph);
+
+		
 		///
 		/// ↓描画処理ここから
 		///
