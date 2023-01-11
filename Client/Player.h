@@ -2,6 +2,7 @@
 #include "ClientInterface.h"
 #include "Map.h"
 #include "Easing.h"
+#include "w_Ranged.h"
 
 #define P_BLOCK_SIZE 32
 #define maxShakeTime 60
@@ -15,16 +16,20 @@ private:
 	Square p_Square;
 	Square p_SquareCells;
 	Easing p_Easing;
+	Vector2 w_Pos;
+
+	
 	float fElapsedTime = 0.0f;
 	float fFrameTimer =0;
 	int nFrameCount =0;
 	int nLastFPS = 0;
 	std::chrono::time_point<std::chrono::system_clock> m_tp1, m_tp2;
 public:
+	w_Ranged* range = new w_Ranged(1.0f, 150.0f, mapObjects[nPlayerID].bullet, mapObjects[nPlayerID].p_Pos);
+
 	Map map;
 	Player();
 	~Player();
-	void Move(char* keys, char* preKeys, float fElapsedTime);
 	void Move2(char* keys, char* preKeys, float fElapsedTime);
 	void CollisionCheck(float fElapsedTime);
 	void TilesCheck(float posX, float posY);

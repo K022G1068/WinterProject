@@ -9,7 +9,10 @@ protected:
 	Vector2 w_Pos;
 
 public:
-	virtual void OnAttack();
+	virtual void OnAttack(float fElapsedTime);
 	virtual void ChargeAttack();
+	virtual void ParryAttack();
+	virtual void Update();
+	virtual void Draw();
 };
 

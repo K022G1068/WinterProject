@@ -30,3 +30,21 @@ struct ShakeElement
 	int shakeTime;
 };
 
+struct Bullet
+{
+	int bulletRange;
+	int bulletSpeed;
+	int bulletDamage;
+	int w_Damage;
+	int w_Speed;
+	Vector2 w_Pos;
+	Vector2 w_Base_Pos;
+	bool isShooting[2] = { false,false };
+};
+
+enum face
+{
+	LEFT,
+	RIGHT,
+};
+

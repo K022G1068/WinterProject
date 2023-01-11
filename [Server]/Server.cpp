@@ -42,6 +42,12 @@ protected:
 				std::cout << "[REMOVED]:" + std::to_string(pd.nUniqueID) + "\n";
 				m_mapPlayerRoster.erase(client->GetID());
 				m_vGarbageIDs.push_back(client->GetID());
+
+				std::cout << "[REMAINING]: ";
+				for (auto& object : m_mapPlayerRoster)
+				{
+					std::cout << "[" << object.first << "]" << " ";
+				}
 			}
 		}
 	}
@@ -55,7 +61,7 @@ protected:
 				Network::net::message<GameMsg> m;
 				m.header.id = GameMsg::Game_RemovePlayer;
 				m << pid;
-				std::cout << "Removing " << pid << "\n";
+				std::cout << "\nRemoving " << pid << "\n";
 				MessageAllClients(m);
 			}
 			m_vGarbageIDs.clear();

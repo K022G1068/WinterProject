@@ -7,7 +7,7 @@ class ClientInterface : public Network::net::client_interface<GameMsg>
 protected:
 	
 	uint32_t nPlayerID = 0;
-	uint32_t PingCount = 0;
+	double PingCount = 0;
 	PlayerInfo playerInfo;
 	std::unordered_map<uint32_t, PlayerInfo> mapObjects;
 	bool bWaitingforConnection = true;
@@ -50,7 +50,14 @@ public:
 						Novice::ScreenPrintf(10, 10, "Server Accepted client - you're in");
 						Network::net::message<GameMsg> msg;
 						msg.header.id = GameMsg::Client_RegisterWithServer;
-						playerInfo.p_Pos = { 50.0f,50.0f };
+						if (playerInfo.nUniqueID % 2 == 0)
+						{
+							playerInfo.p_Pos = { 50.0f,50.0f };
+						}
+						else if(playerInfo.nUniqueID % 2 == 1)
+						{
+							playerInfo.p_Pos = { 550.0f,50.0f };
+						}
 						msg << playerInfo;
 						Send(msg);
 						break;

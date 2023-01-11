@@ -21,10 +21,12 @@ Player::Player()
 
 	mapObjects[nPlayerID].p_Vel.x = 0.0f;
 	mapObjects[nPlayerID].p_Vel.y = 0.0f;
-	mapObjects[nPlayerID].p_OnGround = true;
+	mapObjects[nPlayerID].p_OnGround = false;
+
 	//Count elapsedTime
 	m_tp1 = std::chrono::system_clock::now();
 	m_tp2 = std::chrono::system_clock::now();
+
 }
 
 Player::~Player()
@@ -32,159 +34,18 @@ Player::~Player()
 
 }
 
-void Player::Move(char* keys, char* preKeys, float fElapsedTime)
+void Player::Move2(char* keys, char* preKeys, float fElapsedTime)
 {
+	
 	mapObjects[nPlayerID].p_Vel.x = 0.0f;
 	//mapObjects[nPlayerID].p_Vel.y = 0.0f;
 	//Gravity
 	mapObjects[nPlayerID].p_Vel.y += 400.0f * fElapsedTime;
-
+	
 	//Clamp
-	if (mapObjects[nPlayerID].p_Vel.y >= 618.0f)
+	if (mapObjects[nPlayerID].p_Vel.y >= 672.0f)
 	{
-		mapObjects[nPlayerID].p_Vel.y = 618.0f;
-	}
-
-
-	//Input
-	if (keys[DIK_D])
-	{
-		mapObjects[nPlayerID].p_Vel.x = 100.0f ;
-	}
-	if (keys[DIK_A])
-	{
-		mapObjects[nPlayerID].p_Vel.x = -100.0f;
-	}
-	if (keys[DIK_W])
-	{
-		mapObjects[nPlayerID].p_Vel.y = -50.0f;
-	}
-	if (keys[DIK_S])
-	{
-		mapObjects[nPlayerID].p_Vel.y = 50.0f;
-	}
-
-	if (keys[DIK_R])
-	{
-		mapObjects[nPlayerID].p_Pos.y = 50.0f;
-		mapObjects[nPlayerID].p_Pos.x = 50.0f;
-		mapObjects[nPlayerID].p_Vel.y = 0.0f;
-		mapObjects[nPlayerID].p_Vel.x = 0.0f;
-
-	}
-	mapObjects[nPlayerID].p_Old_Pos.x = mapObjects[nPlayerID].p_Pos.x;
-	mapObjects[nPlayerID].p_Old_Pos.y = mapObjects[nPlayerID].p_Pos.y;
-
-	//Check tiles
-	float p_newPosX = mapObjects[nPlayerID].p_Pos.x + mapObjects[nPlayerID].p_Vel.x * fElapsedTime;
-	float p_newPosY = mapObjects[nPlayerID].p_Pos.y + mapObjects[nPlayerID].p_Vel.y * fElapsedTime;
-
-	
-	TilesCheck(p_newPosX, mapObjects[nPlayerID].p_Pos.y);
-
-	if (keys[DIK_A])
-	{
-		float p_newPosX = mapObjects[nPlayerID].p_Pos.x + mapObjects[nPlayerID].p_Vel.x * fElapsedTime;
-		TilesCheck(p_newPosX, mapObjects[nPlayerID].p_Pos.y);
-		if (map.Tiles[int(p_SquareCells.topLeft.y)][int(p_SquareCells.topLeft.x)] == NONE && map.Tiles[int(p_SquareCells.bottomLeft.y)][int(p_SquareCells.bottomLeft.x)] == NONE)
-		{
-			mapObjects[nPlayerID].p_Pos.x = p_newPosX;
-		}
-		else
-		{
-			mapObjects[nPlayerID].p_Old_Pos.x = mapObjects[nPlayerID].p_Pos.x;
-		}
-		//p.face = LEFT;
-	}
-	else if (keys[DIK_D])
-	{
-		float p_newPosX = mapObjects[nPlayerID].p_Pos.x + mapObjects[nPlayerID].p_Vel.x * fElapsedTime;
-		TilesCheck(p_newPosX, mapObjects[nPlayerID].p_Pos.y);
-		if (map.Tiles[int(p_SquareCells.topRight.y)][int(p_SquareCells.topRight.x)] == NONE && map.Tiles[int(p_SquareCells.bottomRight.y)][int(p_SquareCells.bottomRight.x)] == NONE)
-		{
-			mapObjects[nPlayerID].p_Pos.x = p_newPosX;
-		}
-		else
-		{
-			mapObjects[nPlayerID].p_Old_Pos.x = mapObjects[nPlayerID].p_Pos.x;
-		}
-		//p.face = RIGHT;
-	}
-
-	if (map.Tiles[int(p_SquareCells.topLeft.y)][int(p_SquareCells.topLeft.x)] != NONE || map.Tiles[int(p_SquareCells.topRight.y)][int(p_SquareCells.topRight.x)] != NONE)
-	{
-		mapObjects[nPlayerID].p_Vel.y = 0;
-		Novice::ScreenPrintf(50, 50, "BUMPED");
-	}
-	else if (map.Tiles[int(p_SquareCells.bottomLeft.y)][int(p_SquareCells.bottomLeft.x)] != NONE || map.Tiles[int(p_SquareCells.bottomRight.y)][int(p_SquareCells.bottomRight.x)] != NONE)
-	{
-		mapObjects[nPlayerID].p_Vel.y = 0;
-		Novice::ScreenPrintf(50, 50, "BUMPED");
-	}
-	else
-	{
-		mapObjects[nPlayerID].p_Pos.y = p_newPosY;
-	}
-	mapObjects[nPlayerID].p_Pos.x = p_newPosX;
-
-	//if (mapObjects[nPlayerID].p_Vel.x <= 0)
-	//{
-	//	if (map.Tiles[(int)((mapObjects[nPlayerID].p_Pos.y) / BLOCK_SIZE)][(int)(p_SquareCells.topLeft.x)] != NONE || map.Tiles[(int)((mapObjects[nPlayerID].p_Pos.y + P_BLOCK_SIZE - 0.1f) / BLOCK_SIZE)][(int)(p_SquareCells.bottomLeft.x)] != NONE)
-	//	{
-	//		p_newPosX = (int)p_newPosX + 1.0f;
-	//		mapObjects[nPlayerID].p_Vel.x = 0;
-	//		Novice::ScreenPrintf(50, 50, "BUMPED");
-	//	}
-	//}
-	//else
-	//{
-	//	if (map.Tiles[(int)((mapObjects[nPlayerID].p_Pos.y) / BLOCK_SIZE)][(int)(p_SquareCells.topRight.x)] != NONE || map.Tiles[(int)((mapObjects[nPlayerID].p_Pos.y + P_BLOCK_SIZE - 0.1f) / BLOCK_SIZE)][(int)(p_SquareCells.bottomRight.x)] != NONE)
-	//	{
-	//		p_newPosX = (int)p_newPosX;
-	//		mapObjects[nPlayerID].p_Vel.x = 0;
-	//		Novice::ScreenPrintf(50, 50, "BUMPED");
-	//	}
-	//}
-
-	//mapObjects[nPlayerID].p_OnGround = false;
-	//if (mapObjects[nPlayerID].p_Vel.y <= 0)//Moving up
-	//{
-	//	if (map.Tiles[(int)(p_SquareCells.topLeft.y)][(int)(p_SquareCells.topLeft.x)] != NONE || map.Tiles[(int)(p_SquareCells.topRight.y)][(int)(p_SquareCells.topRight.x)] != NONE)
-	//	{
-	//		p_newPosY = (int)p_newPosY + 1.0f;
-	//		Novice::ScreenPrintf(50, 50, "BUMPED");
-	//		mapObjects[nPlayerID].p_Vel.y = 0;
-	//	}
-	//}
-	//else
-	//{
-	//	if (map.Tiles[(int)(p_SquareCells.bottomLeft.y)][(int)(p_SquareCells.bottomLeft.x)] != NONE || map.Tiles[(int)(p_SquareCells.bottomRight.y)][(int)(p_SquareCells.bottomRight.x)] != NONE)
-	//	{
-	//		p_newPosY = (int)p_newPosY;
-	//		mapObjects[nPlayerID].p_Vel.y = 0;
-	//		Novice::ScreenPrintf(50, 50, "BUMPED");
-	//		mapObjects[nPlayerID].p_OnGround = true;
-
-	//	}
-	//}
-
-
-	
-	
-}
-
-void Player::Move2(char* keys, char* preKeys, float fElapsedTime)
-{
-	mapObjects[nPlayerID].p_OnGround = false;
-	mapObjects[nPlayerID].p_Vel.x = 0.0f;
-	mapObjects[nPlayerID].p_Vel.y = 0.0f;
-	//Gravity
-	//mapObjects[nPlayerID].p_Vel.y += 400.0f * fElapsedTime;
-	// 
-	//Clamp
-	if (mapObjects[nPlayerID].p_Vel.y >= 618.0f)
-	{
-		mapObjects[nPlayerID].p_Vel.y = 618.0f;
+		mapObjects[nPlayerID].p_Vel.y = 672.0f;
 	}
 
 	mapObjects[nPlayerID].p_Old_Pos.x = mapObjects[nPlayerID].p_Pos.x;
@@ -192,10 +53,12 @@ void Player::Move2(char* keys, char* preKeys, float fElapsedTime)
 
 	if (keys[DIK_D])
 	{
+		mapObjects[nPlayerID].facing = RIGHT;
 		mapObjects[nPlayerID].p_Vel.x = 100.0f;
 	}
 	if (keys[DIK_A])
 	{
+		mapObjects[nPlayerID].facing = LEFT;
 		mapObjects[nPlayerID].p_Vel.x = -100.0f;
 	}
 	if (keys[DIK_W])
@@ -206,7 +69,16 @@ void Player::Move2(char* keys, char* preKeys, float fElapsedTime)
 	{
 		mapObjects[nPlayerID].p_Vel.y = 100.0f;
 	}
-
+	if (keys[DIK_SPACE] && mapObjects[nPlayerID].canJump)
+	{
+		mapObjects[nPlayerID].p_OnGround = false;
+		mapObjects[nPlayerID].p_Vel.y = -250.0f;
+		mapObjects[nPlayerID].canJump = false;
+	}
+	if (mapObjects[nPlayerID].p_OnGround == 1)
+	{
+		mapObjects[nPlayerID].canJump = true;
+	}
 	if (keys[DIK_R])
 	{
 		mapObjects[nPlayerID].p_Pos.y = 50.0f;
@@ -215,6 +87,51 @@ void Player::Move2(char* keys, char* preKeys, float fElapsedTime)
 		mapObjects[nPlayerID].p_Vel.x = 0.0f;
 
 	}
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//Dash
+	if (p_Easing.time <= p_Easing.duration)
+	{
+		p_Easing.time += 0.01;
+	}
+	else
+	{
+		canDash[0] = false;
+		canDash[1] = false;
+
+	}
+	if (keys[DIK_Q] && !keys[DIK_A])
+	{
+		canDash[0] = true;
+		canDash[1] = false;
+	}
+	else if (keys[DIK_Q] && keys[DIK_A])
+	{
+		canDash[1] = true;
+		canDash[0] = false;
+	}
+	if (canDash[0])
+	{
+		mapObjects[nPlayerID].p_Vel.x += EaseInOutQuad(p_Easing) * 100.0f;
+
+	}
+	else if (canDash[1])
+	{
+		mapObjects[nPlayerID].p_Vel.x -= EaseInOutQuad(p_Easing) * 100.0f;
+	}
+
+	else
+	{
+		p_Easing.time = 0;
+		p_Easing.change = 10;
+		p_Easing.startPos = 0;
+	}
+	/// <summary>
+	/// /////////////////////////////////////////////////////////////////////////////////////////////
+	/// </summary>
+	/// <param name="keys"></param>
+	/// <param name="preKeys"></param>
+	/// <param name="fElapsedTime"></param>
+
 	float p_newPosX = mapObjects[nPlayerID].p_Pos.x + mapObjects[nPlayerID].p_Vel.x * fElapsedTime;
 	float p_newPosY = mapObjects[nPlayerID].p_Pos.y + mapObjects[nPlayerID].p_Vel.y * fElapsedTime;
 	TilesCheck(p_newPosX, mapObjects[nPlayerID].p_Pos.y);
@@ -337,6 +254,45 @@ void Player::Move2(char* keys, char* preKeys, float fElapsedTime)
 
 
 	}
+
+	//Dash
+	if (p_Easing.time <= p_Easing.duration)
+	{
+		p_Easing.time += 0.01;
+	}
+	else
+	{
+		canDash[0] = false;
+		canDash[1] = false;
+
+	}
+	if (keys[DIK_Q] && !keys[DIK_A])
+	{
+		canDash[0] = true;
+		canDash[1] = false;
+	}
+	else if (keys[DIK_Q] && keys[DIK_A])
+	{
+		canDash[1] = true;
+		canDash[0] = false;
+	}
+	if (canDash[0])
+	{
+		mapObjects[nPlayerID].p_Vel.x = 200.0f;
+
+	}
+	else if (canDash[1])
+	{
+		mapObjects[nPlayerID].p_Vel.x = -200.0f;
+	}
+
+	else
+	{
+		p_Easing.time = 0;
+		p_Easing.change = 10;
+		p_Easing.startPos = 0;
+	}
+
 }
 
 void Player::CollisionCheck(float fElapsedTime)
@@ -345,9 +301,9 @@ void Player::CollisionCheck(float fElapsedTime)
 	{
 		for (auto& object2 : mapObjects)
 		{
-			if (object1.first != object2.first)
+			if (object1.first != object2.first && object1.first != 0 && object2.first != 0)
 			{
-				if (object1.second.p_Pos.x <= object2.second.p_Pos.x + P_BLOCK_SIZE && object1.second.p_Pos.x + P_BLOCK_SIZE >= object2.second.p_Pos.x && object1.second.p_Pos.y <= object2.second.p_Pos.y + P_BLOCK_SIZE && object1.second.p_Pos.y + P_BLOCK_SIZE >= object2.second.p_Pos.y)
+				if (object2.second.p_Pos.x <= object1.second.p_Pos.x + P_BLOCK_SIZE && object2.second.p_Pos.x + P_BLOCK_SIZE >= object1.second.p_Pos.x && object2.second.p_Pos.y <= object1.second.p_Pos.y + P_BLOCK_SIZE && object2.second.p_Pos.y + P_BLOCK_SIZE >= object1.second.p_Pos.y)
 				{
 					object1.second.color = RED;
 					object2.second.color = RED;
@@ -358,12 +314,39 @@ void Player::CollisionCheck(float fElapsedTime)
 					object1.second.color = WHITE;
 					object2.second.color = WHITE;
 				}
+				for (int i = 0; i < 5; i++)
+				{
+					if (object2.second.p_Pos.x <= object1.second.bullet[i].w_Pos.x + 5 && object2.second.p_Pos.x + 5 >= object1.second.bullet[i].w_Pos.x && object2.second.p_Pos.y <= object1.second.bullet[i].w_Pos.y + 5 && object2.second.p_Pos.y + 5 >= object1.second.bullet[i].w_Pos.y)
+					{
+						object2.second.color = RED;
+					}
+					else
+					{
+						object1.second.color = WHITE;
+						object2.second.color = WHITE;
+					}
+					/*float a[5], b[5], c[5];
+					a[i] = object1.second.bullet[i].w_Pos.x - object2.second.p_Pos.x;
+					b[i] = object1.second.bullet[i].w_Pos.y - object2.second.p_Pos.y;
+					c[i] = sqrtf(pow(a[i], 2) + pow(b[i], 2));
+					Novice::ScreenPrintf(10, 400, "C : %f", c[0]);
+					if (c[i] < 10)
+					{
+						object2.second.color = RED;
+					}*/
+
+
+				}
 			}
 		}
 	}
 
+	//Bullet collision
+	
 	
 
+	
+	////////////////////////////////////////////////////////////
 	//border
 	if (mapObjects[nPlayerID].p_Pos.x >= 1230)
 	{
@@ -381,7 +364,7 @@ void Player::CollisionCheck(float fElapsedTime)
 	{
 		mapObjects[nPlayerID].p_Pos.y = 0;
 	}
-	
+	////////////////////////////////////////////////////////////////
 }
 
 void Player::TilesCheck(float posX, float posY)
@@ -449,11 +432,11 @@ void Player::Update(char* keys, char* preKeys)
 		nFrameCount = 0;
 		fFrameTimer = 0.0f;	
 	}
-
 	ClientInterface::OnUserUpdate();
 	ClientInterface::PingServer();
 	Shake(10, 5);
 	GetScreenPos();
+	range->OnAttack(fElapsedTime, keys, preKeys, mapObjects[nPlayerID].bullet, mapObjects[nPlayerID].p_Pos);
 	Skill(keys, preKeys);
 	//Move(keys, preKeys, fElapsedTime);
 	Move2(keys, preKeys, fElapsedTime);
@@ -488,9 +471,10 @@ void Player::Draw()
 		//Print information
 		Novice::ScreenPrintf(600, 10, "FPS: %d",nLastFPS);
 
-		Novice::ScreenPrintf(600, 50, "Ping : %s ms", std::to_string(ClientInterface::PingCount));
+		Novice::ScreenPrintf(600, 50, "Ping : %lf ms", PingCount);
 		Novice::ScreenPrintf(600, 30, "fElapsedTime : %f ms", fElapsedTime);
 		Novice::ScreenPrintf(600, 80, "IsGrounded : %d ", mapObjects[nPlayerID].p_OnGround);
+		Novice::ScreenPrintf(600, 110, "CanJump : %d ", mapObjects[nPlayerID].canJump);
 
 		Novice::ScreenPrintf(600, 150, "TopLeft : [%d][%d] ", int(p_SquareCells.topLeft.x), int(p_SquareCells.topLeft.y));
 		Novice::ScreenPrintf(600, 180, "TopRight : [%d][%d] ", int(p_SquareCells.topRight.x), int(p_SquareCells.topRight.y));
@@ -504,6 +488,12 @@ void Player::Draw()
 				Novice::ScreenPrintf(10, 10, "Vel x : %f  Vel y : %f", object.second.p_Vel.x, object.second.p_Vel.y);
 				Novice::ScreenPrintf(10, 30, "Pos x : %f  Pos y : %f", object.second.p_Pos.x, object.second.p_Pos.y);
 				Novice::ScreenPrintf(object.second.p_Pos.x, object.second.p_Pos.y + 70, "%s", std::to_string(object.first));
+				Novice::ScreenPrintf(10, 60, "%s", std::to_string(object.second.bullet[0].w_Speed));
+				//Draw bullet
+				for (int i = 0; i < 5; i++)
+				{
+					Novice::DrawEllipse(object.second.bullet[i].w_Pos.x, object.second.bullet[i].w_Pos.y, 5, 5, 0, WHITE, kFillModeSolid);
+				}
 			}
 			
 		}
@@ -516,43 +506,5 @@ void Player::Draw()
 
 void Player::Skill(char* keys, char* preKeys)
 {
-	if (p_Easing.time <= p_Easing.duration)
-	{
-		p_Easing.time += 0.01;
-	}
-	else
-	{
-		canDash[0] = false;
-		canDash[1] = false;
-		
-	}
-	if (keys[DIK_SPACE] && preKeys[DIK_SPACE])
-	{
-		//p_Shake.IsShaking = true;
-	}
-	if (keys[DIK_Q] && preKeys[DIK_Q] == 0 && !keys[DIK_A])
-	{
-		canDash[0] = true;
-		canDash[1] = false;
-	}
-	else if (keys[DIK_Q] && preKeys[DIK_Q] == 0 && keys[DIK_A])
-	{
-		canDash[1] = true;
-		canDash[0] = false;
-	}
-	if (canDash[0])
-	{		
-		mapObjects[nPlayerID].p_Pos.x += EaseInQuad(p_Easing);		
-	}
-	else if (canDash[1])
-	{
-		mapObjects[nPlayerID].p_Pos.x -= EaseInQuad(p_Easing);
-	}
-
-	else
-	{
-		p_Easing.time = 0;
-		p_Easing.change = 10;
-		p_Easing.startPos = 0;
-	}
+	
 }

@@ -2,6 +2,7 @@
 #include <cstdint>
 #include"Networking.h"
 #include"Struct.h"
+#include<math.h>
 #define BLOCK_SIZE 32
 
 enum MapInfo
@@ -36,11 +37,14 @@ struct PlayerInfo
 	Vector2 p_Acc;
 	Vector2 p_s_Pos;
 	Vector2 p_Scale;
+	Bullet bullet[5];
 
+	int facing = RIGHT;
 	int color = 0xFFFFFFFF;
 	bool isHitted;
 	bool canHit;
 	bool p_OnGround;
+	bool canJump;
 
 	
 };
