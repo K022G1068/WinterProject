@@ -9,7 +9,7 @@ private:
 	int bulletCount_ = 0;
 	static const int maxBullet_ = 5;
 	Vector2 playerPos_;
-	int facing;
+	int facing = RIGHT;
 
 public:
 	w_Ranged(int damage, int speed, Bullet* bullet, Vector2& base_pos);

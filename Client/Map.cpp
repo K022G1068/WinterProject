@@ -41,6 +41,6 @@ void Map::DrawMap(int& blockSprite)
 			//}
 
 		}
-		Novice::DrawLine(0, y * BLOCK_SIZE, 800, y * BLOCK_SIZE, WHITE);
+		Novice::DrawLine(0, y * BLOCK_SIZE, 1280, y * BLOCK_SIZE, WHITE);
 	}
 }

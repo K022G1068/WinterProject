@@ -21,17 +21,27 @@ w_Ranged::~w_Ranged()
 void w_Ranged::OnAttack(float& fElapsedTime, char* keys, char* preKeys, Bullet* bullet, Vector2& base_pos)
 {
 	cooldown_--;
+
+	
 	for (int i = bulletCount_; i < maxBullet_; i++)
 	{
+		if (keys[DIK_A])
+		{
+			facing = LEFT;
+		}
+		else if (keys[DIK_D])
+		{
+			facing = RIGHT;
+		}
 		if (Novice::IsPressMouse(0))
 		{
 				if (cooldown_ <= 30)
 				{
-					if (keys[DIK_A])
+					if (facing == LEFT)
 					{
 						bullet[i].isShooting[face::LEFT] = 1;
 					}
-					else
+					else if (facing == RIGHT)
 					{
 						bullet[i].isShooting[face::RIGHT] = 1;
 					}
@@ -57,8 +67,8 @@ void w_Ranged::OnAttack(float& fElapsedTime, char* keys, char* preKeys, Bullet* 
 		}
 		else
 		{
-			bullet[i].w_Pos.x = bullet[i].w_Base_Pos.x + 16;
-			bullet[i].w_Pos.y = bullet[i].w_Base_Pos.y + 16;
+			bullet[i].w_Pos.x = bullet[i].w_Base_Pos.x + 16.0f;
+			bullet[i].w_Pos.y = bullet[i].w_Base_Pos.y + 16.0f;
 		}
 
 
@@ -71,12 +81,12 @@ void w_Ranged::OnAttack(float& fElapsedTime, char* keys, char* preKeys, Bullet* 
 			bullet[i].isShooting[face::LEFT] = 0;
 		}
 
-		bullet[i].bulletRange = bullet[i].w_Pos.x - bullet[i].w_Base_Pos.x;
+		bullet[i].bulletRange = bullet[i].w_Pos.x - bullet[i].w_Base_Pos.x + 16.0f;
 		if (abs(bullet[i].bulletRange) >= 300.0f)
 		{
 			bullet[i].isShooting[face::RIGHT] = false;
 		}
-		else if (abs(bullet[i].bulletRange) <= -300.0f)
+		else if (bullet[i].bulletRange <= -232.0f)
 		{
 			bullet[i].isShooting[face::LEFT] = false;
 		}

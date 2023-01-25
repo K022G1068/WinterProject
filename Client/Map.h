@@ -12,7 +12,7 @@ class Map
 private:
 	FILE* fp;
 	errno_t err;
-	std::string fname = "mapSample.csv";
+	std::string fname = "mapSample2.csv";
 	
 
 	Vector2 bgPos;

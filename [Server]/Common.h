@@ -4,6 +4,11 @@
 #include"Struct.h"
 #include<math.h>
 #define BLOCK_SIZE 32
+#define MAXCLIENT 2
+
+#define WIN_WIDTH  1280;
+#define WIN_HEIGHT  800;
+
 
 enum MapInfo
 {
@@ -20,6 +25,14 @@ enum class GameMsg : uint32_t
 	Client_AssignID,
 	Client_RegisterWithServer,
 	Client_UnregisterWithServer,
+
+	Lobby_MakeRoom,
+	Lobby_SearchRoom,
+	Lobby_JoinRoom,
+	Lobby_UpdateRoom,
+	Lobby_AssignRoom,
+	Lobby_AddRoom,
+	Lobby_DeleteRoom,
 
 	Game_AddPlayer,
 	Game_RemovePlayer,
@@ -47,4 +60,15 @@ struct PlayerInfo
 	bool canJump;
 
 	
+};
+
+struct RoomInfo
+{
+	uint32_t nRoomID;
+	uint32_t nHostID;
+	uint32_t maxClient;
+	uint32_t participantCount;
+	uint32_t participants[MAXCLIENT];
+	bool isFull;
+
 };

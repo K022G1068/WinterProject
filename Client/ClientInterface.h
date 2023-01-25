@@ -7,9 +7,11 @@ class ClientInterface : public Network::net::client_interface<GameMsg>
 protected:
 	
 	uint32_t nPlayerID = 0;
+	uint32_t nRoomID = 0;
 	double PingCount = 0;
 	PlayerInfo playerInfo;
 	std::unordered_map<uint32_t, PlayerInfo> mapObjects;
+	std::unordered_map<uint32_t, RoomInfo> mapRooms;
 	bool bWaitingforConnection = true;
 
 private:
@@ -110,6 +112,27 @@ public:
 
 						break;
 					}
+
+					//Lobby incoming message
+					case GameMsg::Lobby_AssignRoom:
+					{
+						msg >> nRoomID;
+						break;
+					}
+
+					case GameMsg::Lobby_AddRoom:
+					{
+						RoomInfo roomInfo;
+						msg >> roomInfo;
+						mapRooms.insert_or_assign(roomInfo.nRoomID, roomInfo);
+						break;
+					}
+
+					case GameMsg::Lobby_DeleteRoom:
+					{
+
+						break;
+					}
 				}
 			}
 		}
@@ -126,6 +149,37 @@ public:
 		return true;
 	}
 
-	
+	bool MakeLobby()
+	{
+		//Send player info
+		Network::net::message<GameMsg> makeRoom;
+		makeRoom.header.id = GameMsg::Lobby_MakeRoom;
+		RoomInfo roomInfo;
+		roomInfo.nHostID = nPlayerID;
+		Send(makeRoom);
+	}
+
+	bool SearchLobby()
+	{
+		Network::net::message<GameMsg> searchRoom;
+		searchRoom.header.id = GameMsg::Lobby_SearchRoom;
+		Send(searchRoom);
+	}
+
+	bool UpdateLobby()
+	{
+		if (IsConnected())
+		{
+			while (!Incoming().empty())
+			{
+				auto msg = Incoming().pop_front().msg;
+
+				switch (msg.header.id)
+				{
+					
+				}
+			}
+		}
+	}
 };
 

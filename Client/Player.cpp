@@ -356,9 +356,9 @@ void Player::CollisionCheck(float fElapsedTime)
 	{
 		mapObjects[nPlayerID].p_Pos.x = 0;
 	}
-	if (mapObjects[nPlayerID].p_Pos.y >= 720)
+	if (mapObjects[nPlayerID].p_Pos.y >= 768)
 	{
-		mapObjects[nPlayerID].p_Pos.y = 720;
+		mapObjects[nPlayerID].p_Pos.y = 768;
 	}
 	else if (mapObjects[nPlayerID].p_Pos.y <= 0)
 	{

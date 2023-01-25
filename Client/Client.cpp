@@ -3,8 +3,6 @@
 #include <Novice.h>
 
 const char kWindowTitle[] = "K022G1068";
-const int kWindowWidth = 1280;
-const int kWindowHeight = 720;
 
 
 
@@ -12,7 +10,7 @@ const int kWindowHeight = 720;
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// ライブラリの初期化
-	Novice::Initialize(kWindowTitle, kWindowWidth, kWindowHeight);
+	Novice::Initialize(kWindowTitle, 1280, 800);
 
 	// キー入力結果を受け取る箱
 	char keys[256] = {0};

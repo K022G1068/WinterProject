@@ -11,6 +11,12 @@ public:
 	std::unordered_map<uint16_t, PlayerInfo> m_mapPlayerRoster;
 	std::vector<uint32_t> m_vGarbageIDs;
 
+	std::unordered_map<uint16_t, RoomInfo> m_mapRoomRoster;
+	std::vector<uint32_t> m_vRoomGarbageIDs;
+
+private:
+	uint32_t RoomIDCounter = 2000;
+
 protected:
 	bool OnClientConnect(std::shared_ptr<Network::net::connection<GameMsg>> client) override
 	{
@@ -92,6 +98,37 @@ protected:
 					msgAddOtherPlayers.header.id = GameMsg::Game_AddPlayer;
 					msgAddOtherPlayers << user.second;
 					MessageClient(client, msgAddOtherPlayers);
+				}
+				break;
+			}
+
+			case GameMsg::Lobby_MakeRoom:
+			{
+				RoomInfo roomInfo;
+				msg >> roomInfo;
+				roomInfo.nRoomID = RoomIDCounter++;
+				m_mapRoomRoster.insert_or_assign(roomInfo.nRoomID, roomInfo);
+
+				Network::net::message<GameMsg> msgAssignRoom;
+				msgAssignRoom.header.id = GameMsg::Lobby_AssignRoom;
+				msgAssignRoom << roomInfo.nRoomID;
+				MessageClient(client, msgAssignRoom);
+
+				Network::net::message<GameMsg> msgAddRoom;
+				msgAddRoom.header.id = GameMsg::Lobby_AddRoom;
+				msgAddRoom << roomInfo;
+				MessageAllClients(msgAddRoom);
+				break;
+			}
+
+			case GameMsg::Lobby_SearchRoom:
+			{
+				for (const auto& room : m_mapRoomRoster)
+				{
+					Network::net::message<GameMsg> msgAddOtherRooms;
+					msgAddOtherRooms.header.id = GameMsg::Lobby_AddRoom;
+					msgAddOtherRooms << room.second;
+					MessageClient(client, msgAddOtherRooms);
 				}
 				break;
 			}

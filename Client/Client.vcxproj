@@ -103,8 +103,10 @@
     <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp" />
     <ClCompile Include="ClientInterface.cpp" />
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="GameTitle.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Room.cpp" />
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="w_Ranged.cpp" />
   </ItemGroup>
@@ -137,8 +139,10 @@
     <ClInclude Include="C:\KamataEngine\Adapter\Novice.h" />
     <ClInclude Include="ClientInterface.h" />
     <ClInclude Include="Easing.h" />
+    <ClInclude Include="GameTitle.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Room.h" />
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="w_Ranged.h" />
   </ItemGroup>
