@@ -6,7 +6,8 @@ class ClientInterface : public Network::net::client_interface<GameMsg>
 {
 protected:
 	
-	uint32_t nPlayerID = 0;
+	uint32_t nPlayerID;
+	uint32_t nRoomID = 0;
 	double PingCount = 0;
 	PlayerInfo playerInfo;
 	std::unordered_map<uint32_t, PlayerInfo> mapObjects;
@@ -16,6 +17,10 @@ private:
 	
 
 public:
+	uint32_t GetID()
+	{
+		return nPlayerID;
+	}
 	void PingServer()
 	{
 		Network::net::message<GameMsg> msg;

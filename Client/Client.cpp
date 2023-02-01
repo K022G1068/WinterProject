@@ -6,8 +6,6 @@ const char kWindowTitle[] = "K022G1068";
 const int kWindowWidth = 1280;
 const int kWindowHeight = 720;
 
-
-
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
@@ -18,10 +16,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	char keys[256] = {0};
 	char preKeys[256] = {0};
 
-	int mapGraph = Novice::LoadTexture("./Resources/Block1.png");
+	int gameScene = 0;
 
 	Player* player = new Player();
-	Map* mapObject = new Map();
+	Map* map = new Map();
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
@@ -35,19 +33,59 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 		/// ↓更新処理ここから
 		///
-		player->Update(keys, preKeys);
+		
 		///
 		/// ↑更新処理ここまで
 		///
 		/// 
-		player->Draw();
-		mapObject->DrawMap(mapGraph);
+	/*	switch (gameScene)
+		{
+			case GameStatus::Game_Title:
+			{
+				if (keys[DIK_RETURN] && preKeys[DIK_RETURN] == 0)
+				{
+					gameScene = GameStatus::Game_MakeRoom;
+				}
+				if (keys[DIK_SPACE] && preKeys[DIK_SPACE] == 0)
+				{
+					gameScene = GameStatus::Game_Start;
+				}
 
+				gameTitle->Draw();
+				break;
+			}
+	
+			case GameStatus::Game_Search:
+			{
+
+				break;
+			}
+
+			case GameStatus::Game_MakeRoom:
+			{
+
+				break;
+			}
+
+			case GameStatus::Game_Start:
+			{
+				gameStart->Update(keys, preKeys);
+
+				gameStart->Draw();
+				break;
+			}
+
+			case GameStatus::Game_Over:
+			{
+
+				break;
+			}*/
 		
+		player->Update(keys, preKeys);
 		///
 		/// ↓描画処理ここから
 		///
-
+		map->DrawMap();
 		///
 		/// ↑描画処理ここまで
 		///

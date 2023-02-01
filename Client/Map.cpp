@@ -8,7 +8,7 @@ Map::Map()
 void Map::InitMap()
 {
 	err = fopen_s(&fp, "./Resources/mapSample2.csv", "r");
-
+	mapGraph = Novice::LoadTexture("./Resources/Block1.png");
 	if (err != 0)
 	{
 		//return err;
@@ -24,7 +24,7 @@ void Map::InitMap()
 	}
 }
 
-void Map::DrawMap(int& blockSprite)
+void Map::DrawMap()
 {
 	for (int y = 0; y < 25; y++)
 	{
@@ -33,7 +33,7 @@ void Map::DrawMap(int& blockSprite)
 			Novice::DrawLine(x * BLOCK_SIZE + bgPos.x, 0, x * BLOCK_SIZE + bgPos.x, 800, WHITE);
 			if (Tiles[y][x] == MapInfo::BLOCK)
 			{
-				Novice::DrawSprite(x * BLOCK_SIZE + bgPos.x, y * BLOCK_SIZE, blockSprite, 1, 1, 0, WHITE);
+				Novice::DrawSprite(x * BLOCK_SIZE + bgPos.x, y * BLOCK_SIZE, mapGraph, 1, 1, 0, WHITE);
 			}
 			//if (x == int(squareCells.topLeft.x) && y == int(squareCells.topLeft.y) || x == int(squareCells.bottomLeft.x) && y == int(squareCells.bottomLeft.y) || x == int(squareCells.topRight.x) && y == int(squareCells.topRight.y) || x == int(squareCells.bottomRight.x) && y == int(squareCells.bottomRight.y))
 			//{

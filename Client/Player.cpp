@@ -2,7 +2,7 @@
 
 Player::Player()
 {
-	ClientInterface::OnUserCreate();
+	Init();
 	this->p_Shake.IsShaking = false;
 	this->p_Shake.shakePos = { 0.0f,0.0f };
 	this->p_Shake.shakeTime = maxShakeTime;
@@ -27,11 +27,18 @@ Player::Player()
 	m_tp1 = std::chrono::system_clock::now();
 	m_tp2 = std::chrono::system_clock::now();
 
+	graph = Novice::LoadTexture("./Resources/player-animation.png");
+
 }
 
 Player::~Player()
 {
 
+}
+
+void Player::Init()
+{
+	ClientInterface::OnUserCreate();
 }
 
 void Player::Move2(char* keys, char* preKeys, float fElapsedTime)
@@ -441,6 +448,7 @@ void Player::Update(char* keys, char* preKeys)
 	//Move(keys, preKeys, fElapsedTime);
 	Move2(keys, preKeys, fElapsedTime);
 	CollisionCheck(fElapsedTime);
+	animation->RunAnimation(mapObjects[nPlayerID].p_Pos, P_BLOCK_SIZE);
 	Draw();
 	
 }
@@ -463,10 +471,10 @@ void Player::Draw()
 	if (ClientInterface::IsConnected())
 	{
 		//Draw box
-		Novice::DrawBox(p_SquareCells.topLeft.x * BLOCK_SIZE, p_SquareCells.topLeft.y * BLOCK_SIZE , BLOCK_SIZE, BLOCK_SIZE, 0, GREEN, kFillModeSolid);
+		Novice::DrawBox(p_SquareCells.topLeft.x * BLOCK_SIZE, p_SquareCells.topLeft.y * BLOCK_SIZE , BLOCK_SIZE, BLOCK_SIZE, 0, RED, kFillModeSolid);
 		Novice::DrawBox(p_SquareCells.topRight.x * BLOCK_SIZE, p_SquareCells.topRight.y * BLOCK_SIZE , BLOCK_SIZE, BLOCK_SIZE, 0, GREEN, kFillModeSolid);
-		Novice::DrawBox(p_SquareCells.bottomLeft.x * BLOCK_SIZE, p_SquareCells.bottomLeft.y * BLOCK_SIZE , BLOCK_SIZE, BLOCK_SIZE, 0, GREEN, kFillModeSolid);
-		Novice::DrawBox(p_SquareCells.bottomRight.x * BLOCK_SIZE, p_SquareCells.bottomRight.y * BLOCK_SIZE , BLOCK_SIZE, BLOCK_SIZE, 0, GREEN, kFillModeSolid);
+		Novice::DrawBox(p_SquareCells.bottomLeft.x * BLOCK_SIZE, p_SquareCells.bottomLeft.y * BLOCK_SIZE , BLOCK_SIZE, BLOCK_SIZE, 0, BLUE, kFillModeSolid);
+		Novice::DrawBox(p_SquareCells.bottomRight.x * BLOCK_SIZE, p_SquareCells.bottomRight.y * BLOCK_SIZE , BLOCK_SIZE, BLOCK_SIZE, 0, BLACK, kFillModeSolid);
 
 		//Print information
 		Novice::ScreenPrintf(600, 10, "FPS: %d",nLastFPS);
@@ -484,7 +492,8 @@ void Player::Draw()
 		{
 			if (object.first != 0)
 			{
-				Novice::DrawBox(object.second.p_Pos.x, object.second.p_Pos.y, P_BLOCK_SIZE, P_BLOCK_SIZE, 0, object.second.color, kFillModeSolid);
+				Novice::DrawBox(object.second.p_Pos.x + 10, object.second.p_Pos.y, P_BLOCK_SIZE - 15, P_BLOCK_SIZE, 0, object.second.color, kFillModeWireFrame);
+				Novice::DrawQuad(object.second.p_Pos.x, object.second.p_Pos.y, object.second.p_Pos.x + P_BLOCK_SIZE, object.second.p_Pos.y, object.second.p_Pos.x, object.second.p_Pos.y + P_BLOCK_SIZE, object.second.p_Pos.x + P_BLOCK_SIZE, object.second.p_Pos.y + P_BLOCK_SIZE, animation->currentFrame_ * P_BLOCK_SIZE, 0, P_BLOCK_SIZE, P_BLOCK_SIZE, graph, WHITE);
 				Novice::ScreenPrintf(10, 10, "Vel x : %f  Vel y : %f", object.second.p_Vel.x, object.second.p_Vel.y);
 				Novice::ScreenPrintf(10, 30, "Pos x : %f  Pos y : %f", object.second.p_Pos.x, object.second.p_Pos.y);
 				Novice::ScreenPrintf(object.second.p_Pos.x, object.second.p_Pos.y + 70, "%s", std::to_string(object.first));

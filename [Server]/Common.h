@@ -11,6 +11,15 @@ enum MapInfo
 	BLOCK,
 };
 
+enum GameStatus
+{
+	Game_Title,
+	Game_Search,
+	Game_Start,
+	Game_MakeRoom,
+	Game_Over,
+};
+
 enum class GameMsg : uint32_t
 {
 	Server_GetStatus,

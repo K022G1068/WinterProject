@@ -12,8 +12,8 @@ class Map
 private:
 	FILE* fp;
 	errno_t err;
-	std::string fname = "mapSample.csv";
-	
+	std::string fname = "mapSample2.csv";
+	int mapGraph;
 
 	Vector2 bgPos;
 
@@ -23,6 +23,6 @@ public:
 public:
 	Map();
 	void InitMap();
-	void DrawMap(int& blockSprite);
+	void DrawMap();
 };
 

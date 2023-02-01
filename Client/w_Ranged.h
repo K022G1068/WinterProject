@@ -5,6 +5,7 @@
 class w_Ranged
 {
 private:
+	int w_Damage_ = 5;
 	int cooldown_ = 30;
 	int bulletCount_ = 0;
 	static const int maxBullet_ = 5;
